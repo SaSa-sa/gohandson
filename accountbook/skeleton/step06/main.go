@@ -10,7 +10,7 @@ import (
 func main() {
 
 	// AccountBookをNewAccountBookを使って作成
-	ab := NewAccountBook("accountbook.txt")
+	ab := NewAccountBook("accountbook.txt") //んん？当たり前のように他のスクリプトのfunc持ってきてるけどどーいうこと？？func main()以外は全て関連として認識されるのか？
 
 LOOP: // 以下のループにラベル「LOOP」をつける
 	for {
@@ -30,7 +30,7 @@ LOOP: // 以下のループにラベル「LOOP」をつける
 
 			for i := 0; i < n; i++ {
 				if err := ab.AddItem(inputItem()); err != nil {
-					// TODO: os.Stderrにエラーメッセージを出す
+					fmt.Fprintln(os.Stderr, "エラー", err)
 					break LOOP
 				}
 			}
@@ -38,10 +38,13 @@ LOOP: // 以下のループにラベル「LOOP」をつける
 			items, err := ab.GetItems(10)
 			if err != nil {
 				fmt.Fprintln(os.Stderr, "エラー:", err)
+				break LOOP
 				// TODO: LOOPという名前のついたforから抜け出す
 			}
 			showItems(items)
 		case 3: // 終了
+			fmt.Println("終了します")
+			return
 			// TODO: 3のとき「終了します」と出力して終了する
 		}
 	}
